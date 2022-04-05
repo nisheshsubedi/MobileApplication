@@ -5,45 +5,31 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    private Button mSayHello, mCount;
-    private TextView mTextView;
-    private int counter;
+    private int mCount = 0;
+    private TextView mShowCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mSayHello = findViewById(R.id.sayHello);
-        mCount = findViewById(R.id.count);
-        mTextView = findViewById(R.id.textView);
-
-        counter =0;
-
-        mSayHello.setOnClickListener(this);
-        mCount.setOnClickListener(this);
-
+        mShowCount = (TextView) findViewById(R.id.show_count);
     }
 
-    @Override
-    public void onClick(View view) {
+    public void showToast(View view) {
+        Toast toast = Toast.makeText(this, R.string.toast_message,
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
-        switch (view.getId())
-        {
-            case R.id.sayHello:
-                Intent intent = new Intent(MainActivity.this, HelloToast.class);
-                intent.putExtra("CounterValue", ""+counter);
-                startActivity(intent);
-                break;
-
-            case R.id.count:
-                counter++;
-                mTextView.setText(""+counter);
-                break;
-        }
+    public void countUp(View view) {
+        mCount++;
+        if (mShowCount != null)
+            mShowCount.setText(Integer.toString(mCount));
     }
 }
